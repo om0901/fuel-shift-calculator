@@ -1,0 +1,41 @@
+{
+  "name": "fuel-shift-calculator",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "electron/dist/main.js",
+  "scripts": {
+    "dev": "vite",
+    "dev:web": "vite",
+    "dev:desktop": "concurrently \"vite\" \"wait-on tcp:5173 && electron .\"",
+    "build": "tsc && vite build",
+    "build:web": "tsc && vite build",
+    "build:desktop": "tsc && vite build && tsc -p electron/tsconfig.json && electron-builder --win",
+    "build:electron": "tsc && vite build && tsc -p electron/tsconfig.json && electron-builder --win",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"vite\" \"wait-on tcp:5173 && electron .\""
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.0",
+    "electron": "^30.5.1",
+    "electron-builder": "^24.13.3",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "wait-on": "^8.0.1"
+  }
+}
