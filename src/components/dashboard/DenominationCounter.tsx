@@ -93,7 +93,7 @@ export const DenominationCounter: FC = () => {
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
-        className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-blue-500/60 hover:bg-slate-800 text-xs font-semibold text-blue-400 hover:text-blue-300 transition-all focus:outline-none focus:ring-1 focus:ring-blue-500"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:border-blue-500/60 hover:bg-slate-800 text-xs font-semibold text-blue-400 hover:text-blue-300 transition-all focus:outline-none focus:ring-1 focus:ring-blue-500"
         aria-expanded={isOpen}
       >
         <Banknote className="w-3.5 h-3.5" />
@@ -105,14 +105,15 @@ export const DenominationCounter: FC = () => {
         )}
       </button>
 
-      {/* Collapsible Panel */}
+      {/* Full-Width Collapsible Panel */}
       {isOpen && (
         <div className="mt-2.5 bg-slate-900/90 rounded-xl p-3.5 sm:p-4 border border-slate-700/80 shadow-inner space-y-3 animate-in fade-in slide-in-from-top-2 duration-150">
+          {/* Header */}
           <div className="flex items-center justify-between border-b border-slate-800 pb-2">
             <div className="flex items-center gap-1.5">
               <Banknote className="w-4 h-4 text-emerald-400" />
               <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
-                Note Denomination Counter
+                Note Denomination Breakdown
               </span>
             </div>
 
@@ -123,12 +124,12 @@ export const DenominationCounter: FC = () => {
               title="Clear all note counts"
             >
               <RotateCcw className="w-3 h-3" />
-              Reset
+              Reset Counts
             </button>
           </div>
 
-          {/* Denominations Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
+          {/* Clean Single-Column Vertical List */}
+          <div className="flex flex-col gap-2">
             {DENOMINATIONS.map((denom) => {
               const countVal = counts[denom];
               const countNum = parseInt(countVal, 10) || 0;
@@ -137,45 +138,46 @@ export const DenominationCounter: FC = () => {
               return (
                 <div
                   key={denom}
-                  className="flex items-center justify-between bg-slate-950/60 px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors gap-2"
+                  className="grid grid-cols-[72px_1fr_90px] sm:grid-cols-[72px_1fr_100px] items-center gap-3 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800/80 hover:border-slate-700/80 transition-colors"
                 >
-                  {/* Denomination Chip */}
-                  <span className="inline-flex items-center justify-center font-mono font-bold text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded w-14 shrink-0">
+                  {/* Left: Fixed-width denomination badge */}
+                  <span className="inline-flex items-center justify-center font-mono font-bold text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded w-[72px] shrink-0 text-center">
                     ₹{denom}
                   </span>
 
-                  <span className="text-slate-500 text-xs">×</span>
+                  {/* Center: Numeric input with x multiplier label */}
+                  <div className="flex items-center justify-center gap-2">
+                    <span className="text-slate-500 text-xs font-mono font-semibold select-none">×</span>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      placeholder="0"
+                      value={countVal}
+                      onChange={(e) => handleCountChange(denom, e.target.value)}
+                      className="w-full max-w-[110px] bg-slate-900 border border-slate-700 rounded-md px-2 py-1 text-xs text-center font-mono text-slate-50 placeholder-slate-600 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    />
+                  </div>
 
-                  {/* Quantity Input */}
-                  <input
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="0"
-                    value={countVal}
-                    onChange={(e) => handleCountChange(denom, e.target.value)}
-                    className="w-16 sm:w-20 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-right font-mono text-slate-50 placeholder-slate-600 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-
-                  {/* Subtotal */}
-                  <span className="font-mono text-xs text-slate-300 w-20 text-right font-medium">
+                  {/* Right: Tabular subtotal */}
+                  <span className="font-mono text-xs text-slate-200 text-right font-semibold tabular-nums">
                     = ₹{subtotal.toLocaleString('en-IN')}
                   </span>
                 </div>
               );
             })}
 
-            {/* Loose Coins Input */}
-            <div className="flex items-center justify-between bg-slate-950/60 px-2.5 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 transition-colors gap-2">
-              <span className="inline-flex items-center justify-center font-mono font-bold text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded w-14 shrink-0 gap-1">
+            {/* Coins Row */}
+            <div className="grid grid-cols-[72px_1fr_90px] sm:grid-cols-[72px_1fr_100px] items-center gap-3 bg-slate-950/60 px-3 py-1.5 rounded-lg border border-slate-800/80 hover:border-slate-700/80 transition-colors">
+              {/* Left: Fixed-width badge */}
+              <span className="inline-flex items-center justify-center font-mono font-bold text-xs text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded w-[72px] shrink-0 text-center gap-1">
                 <Coins className="w-3 h-3" />
                 Coins
               </span>
 
-              <span className="text-slate-500 text-xs">=</span>
-
-              <div className="flex items-center w-full justify-end gap-1.5">
-                <span className="text-slate-400 text-xs">₹</span>
+              {/* Center: Numeric input with ₹ label */}
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-slate-500 text-xs font-mono font-semibold select-none">₹</span>
                 <input
                   type="number"
                   min="0"
@@ -183,16 +185,24 @@ export const DenominationCounter: FC = () => {
                   placeholder="0.00"
                   value={coinsAmount}
                   onChange={(e) => handleCoinsChange(e.target.value)}
-                  className="w-24 sm:w-28 bg-slate-900 border border-slate-700 rounded px-2 py-1 text-xs text-right font-mono text-slate-50 placeholder-slate-600 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full max-w-[110px] bg-slate-900 border border-slate-700 rounded-md px-2 py-1 text-xs text-center font-mono text-slate-50 placeholder-slate-600 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
+
+              {/* Right: Tabular subtotal */}
+              <span className="font-mono text-xs text-slate-200 text-right font-semibold tabular-nums">
+                = ₹{(parseFloat(coinsAmount) || 0).toLocaleString('en-IN', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
             </div>
           </div>
 
-          {/* Footer Total & Live Sync Indicator */}
-          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800 text-xs font-mono">
-            <span className="text-slate-400 text-[11px]">
-              Total Notes Count: <strong className="text-slate-200">{totalNotes}</strong>
+          {/* Footer Summary Bar: Single horizontal bar */}
+          <div className="flex justify-between items-center pt-2.5 border-t border-slate-800 text-xs font-mono">
+            <span className="text-slate-400 text-xs flex items-center gap-1.5">
+              Total Notes Count: <strong className="text-slate-100 font-bold">{totalNotes}</strong>
             </span>
 
             <div className="flex items-center gap-2">
@@ -200,7 +210,7 @@ export const DenominationCounter: FC = () => {
                 <CheckCircle2 className="w-3 h-3" />
                 Live Synced
               </span>
-              <span className="text-slate-100 font-bold text-sm">
+              <span className="text-slate-50 font-bold text-sm tabular-nums">
                 {formatINR(currentTotal)}
               </span>
             </div>

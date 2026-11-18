@@ -39,21 +39,16 @@ export const CashCollectionCard: FC = () => {
       <div className="space-y-4">
         {/* Physical Cash & UPI Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
-          <div className="space-y-2">
-            <Input
-              label="Physical Cash (₹)"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder="0.00"
-              prefix="₹"
-              value={cashAmount}
-              onChange={(e) => updateInputField('cashAmount', e.target.value)}
-            />
-
-            {/* Collapsible Cash Denomination Note Counter */}
-            <DenominationCounter />
-          </div>
+          <Input
+            label="Physical Cash (₹)"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+            prefix="₹"
+            value={cashAmount}
+            onChange={(e) => updateInputField('cashAmount', e.target.value)}
+          />
 
           <Input
             label="Online / UPI Payments (₹)"
@@ -65,6 +60,11 @@ export const CashCollectionCard: FC = () => {
             value={upiAmount}
             onChange={(e) => updateInputField('upiAmount', e.target.value)}
           />
+        </div>
+
+        {/* Full Card Width Note Denomination Counter */}
+        <div className="w-full">
+          <DenominationCounter />
         </div>
 
         {/* Credit & Operator Remark Row */}
