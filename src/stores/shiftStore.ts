@@ -65,9 +65,18 @@ export interface ShiftStoreState {
   loadInitialData: () => Promise<void>;
 }
 
+export const getTodayDateString = (): string => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 const createInitialForm = (rates: FuelRates, fuelType: FuelType = 'PETROL'): ShiftFormInput => ({
   fuelType,
   fuelPrice: fuelType === 'PETROL' ? rates.petrolPrice : rates.dieselPrice,
+  shiftDate: getTodayDateString(),
   openingReading: '',
   closingReading: '',
   cashAmount: '',
@@ -128,6 +137,7 @@ export const useShiftStore = create<ShiftStoreState>()(
               ? crypto.randomUUID()
               : `shift_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
             timestamp: new Date().toISOString(),
+            shiftDate: form.shiftDate || getTodayDateString(),
             fuelType: form.fuelType,
             fuelPrice: form.fuelPrice,
             openingReading: parseNonNegativeNumber(form.openingReading),
@@ -195,6 +205,7 @@ export const useShiftStore = create<ShiftStoreState>()(
           searchTerm: '',
           statusFilter: 'ALL',
           fuelTypeFilter: 'ALL',
+          dateFilter: '',
         },
         isLoading: false,
         errorMessage: null,

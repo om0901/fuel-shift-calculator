@@ -16,6 +16,7 @@ export interface FuelRates {
 export interface ShiftFormInput {
   fuelType: FuelType;
   fuelPrice: number;
+  shiftDate?: string; // YYYY-MM-DD
   openingReading: string | number;
   closingReading: string | number;
   cashAmount: string | number;
@@ -37,6 +38,7 @@ export interface ShiftCalculationOutput {
 export interface ShiftRecord {
   id: string;
   timestamp: string;
+  shiftDate?: string; // YYYY-MM-DD
   fuelType: FuelType;
   fuelPrice: number;
   openingReading: number;
@@ -56,6 +58,7 @@ export interface ShiftFilterCriteria {
   searchTerm: string;
   statusFilter: 'ALL' | TallyStatus;
   fuelTypeFilter: 'ALL' | FuelType;
+  dateFilter?: string; // YYYY-MM-DD
 }
 
 export interface StorageService {

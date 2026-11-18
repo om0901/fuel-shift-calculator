@@ -11,6 +11,7 @@ export function exportToCSV(records: ShiftRecord[], filenamePrefix = 'fuel_shift
 
   const headers = [
     'Shift ID',
+    'Shift Date',
     'Timestamp',
     'Date & Time',
     'Fuel Type',
@@ -36,6 +37,7 @@ export function exportToCSV(records: ShiftRecord[], filenamePrefix = 'fuel_shift
 
   const rows = records.map((r) => [
     escapeCSV(r.id),
+    escapeCSV(r.shiftDate || r.timestamp.split('T')[0]),
     escapeCSV(r.timestamp),
     escapeCSV(new Date(r.timestamp).toLocaleString('en-IN')),
     escapeCSV(r.fuelType === 'PETROL' ? 'Petrol (MS)' : 'Diesel (HSD)'),

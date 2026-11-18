@@ -81,6 +81,13 @@ export const ConfirmShiftModal: FC = () => {
         {/* Summary Receipt Box */}
         <div className="bg-slate-900/90 rounded-xl p-4 border border-slate-700/70 space-y-3 font-mono text-xs">
           <div className="flex justify-between items-center text-slate-400">
+            <span>Shift Date:</span>
+            <span className="text-slate-100 font-semibold font-sans">
+              {form.shiftDate || new Date().toISOString().split('T')[0]}
+            </span>
+          </div>
+
+          <div className="flex justify-between items-center text-slate-400">
             <span>Fuel Product:</span>
             <span className="text-slate-100 font-semibold font-sans">
               {fuelType === 'PETROL' ? 'Petrol (MS)' : 'Diesel (HSD)'} @ ₹{fuelPrice.toFixed(2)}/L
