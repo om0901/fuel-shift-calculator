@@ -3,6 +3,7 @@ import { useShiftStore } from '../../stores/shiftStore';
 import { Input } from '../common/Input';
 import { formatINR } from '../../utils/currency';
 import { parseNonNegativeNumber } from '../../utils/calculations';
+import { DenominationCounter } from './DenominationCounter';
 import { Banknote, QrCode, FileText, Wallet } from 'lucide-react';
 
 export const CashCollectionCard: FC = () => {
@@ -36,17 +37,23 @@ export const CashCollectionCard: FC = () => {
 
       {/* Input Fields Grid */}
       <div className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Input
-            label="Physical Cash (₹)"
-            type="number"
-            step="0.01"
-            min="0"
-            placeholder="0.00"
-            prefix="₹"
-            value={cashAmount}
-            onChange={(e) => updateInputField('cashAmount', e.target.value)}
-          />
+        {/* Physical Cash & UPI Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+          <div className="space-y-2">
+            <Input
+              label="Physical Cash (₹)"
+              type="number"
+              step="0.01"
+              min="0"
+              placeholder="0.00"
+              prefix="₹"
+              value={cashAmount}
+              onChange={(e) => updateInputField('cashAmount', e.target.value)}
+            />
+
+            {/* Collapsible Cash Denomination Note Counter */}
+            <DenominationCounter />
+          </div>
 
           <Input
             label="Online / UPI Payments (₹)"
@@ -60,6 +67,7 @@ export const CashCollectionCard: FC = () => {
           />
         </div>
 
+        {/* Credit & Operator Remark Row */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Input
             label="Credit / Khata Slips (₹)"
